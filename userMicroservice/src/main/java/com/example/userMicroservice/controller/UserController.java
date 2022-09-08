@@ -1,9 +1,11 @@
 package com.example.userMicroservice.controller;
 
-import com.example.userMicroservice.ResponseUser;
-import com.example.userMicroservice.domain.UserDomain;
+import com.example.userMicroservice.jpa.UserEntity;
+import com.example.userMicroservice.vo.ResponseUser;
+import com.example.userMicroservice.vo.UserDomain;
 import com.example.userMicroservice.dto.UserDto;
 import com.example.userMicroservice.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user-service")
@@ -50,5 +54,24 @@ public class UserController {
         ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<ResponseUser>> getUsers() {
+        Iterable<UserEntity> userList = userService.getUserByAll();
+
+        List<ResponseUser> result = new ArrayList<>();
+        userList.forEach(v -> {
+            result.add(new ModelMapper().map(v, ResponseUser.class));
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ResponseUser> getUsers(@PathVariable("userId") String userId) {
+        UserDto user = userService.getUserById(userId);
+        ResponseUser result = new ModelMapper().map(user, ResponseUser.class);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

@@ -1,0 +1,14 @@
+package com.example.userMicroservice.vo;
+
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class ResponseOrder {
+    private String productId;
+    private Integer qty;
+    private Integer unitPrice;
+    private Date createdAt;
+    private String orderId;
+}

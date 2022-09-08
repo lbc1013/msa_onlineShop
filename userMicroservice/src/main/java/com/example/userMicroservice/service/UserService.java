@@ -3,12 +3,16 @@ package com.example.userMicroservice.service;
 import com.example.userMicroservice.jpa.UserEntity;
 import com.example.userMicroservice.jpa.UserRepository;
 import com.example.userMicroservice.dto.UserDto;
+import com.example.userMicroservice.vo.ResponseOrder;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,5 +36,24 @@ public class UserService {
 
         userRepository.save(userEntity);
         return "Created By"+userDto.getUserId();
+    }
+
+    public UserDto getUserById (String userId) {
+        UserEntity userEntity = userRepository.findByUserId(userId);
+
+        if (userEntity == null) {
+            throw new UsernameNotFoundException("can't find this user");
+        }
+
+        UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+
+        List<ResponseOrder> orders = new ArrayList<>();
+        userDto.setOrders(orders);
+
+        return userDto;
+    }
+
+    public Iterable<UserEntity> getUserByAll () {
+        return userRepository.findAll();
     }
 }
