@@ -23,21 +23,21 @@ public class OrderServiceImpl implements OrderService{
         this.orderRepository = orderRepository;
     }
 
-        @Override
-        public OrderDto createOrder(OrderDto orderDetail) {
-            orderDetail.setOrderId(String.valueOf(UUID.randomUUID()));
+    @Override
+    public OrderDto createOrder(OrderDto orderDetail) {
+        orderDetail.setOrderId(String.valueOf(UUID.randomUUID()));
 
-            Integer totalPrice = orderDetail.getUnitPrice() * orderDetail.getQty();
-            orderDetail.setTotalPrice(totalPrice);
+        Integer totalPrice = orderDetail.getUnitPrice() * orderDetail.getQty();
+        orderDetail.setTotalPrice(totalPrice);
 
-            ModelMapper mapper = new ModelMapper();
-            mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-            OrderEntity orderEntity = mapper.map(orderDetail, OrderEntity.class);
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        OrderEntity orderEntity = mapper.map(orderDetail, OrderEntity.class);
 
-            orderRepository.save(orderEntity);
-            OrderDto returnValue = mapper.map(orderEntity, OrderDto.class);
+        orderRepository.save(orderEntity);
+        OrderDto returnValue = mapper.map(orderEntity, OrderDto.class);
 
-            return returnValue;
+        return returnValue;
 }
 
     @Override
