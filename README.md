@@ -1,2 +1,2 @@
 # msa_onlineShop
-- Microservices Architecture
+- Microservices Application using Spring Cloud.
