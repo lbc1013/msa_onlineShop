@@ -2,6 +2,8 @@ package com.example.orderservice.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class OrderDto {
     private String productId;
@@ -11,4 +13,5 @@ public class OrderDto {
 
     private Integer totalPrice;
     private String orderId;
+    private Date createdAt;
 }
