@@ -5,7 +5,6 @@ import com.example.userMicroservice.vo.ResponseUser;
 import com.example.userMicroservice.vo.UserDomain;
 import com.example.userMicroservice.dto.UserDto;
 import com.example.userMicroservice.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-service")
+@RequestMapping("/")
 public class UserController {
     private Environment env;
     private UserService userService;
